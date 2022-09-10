@@ -9,6 +9,7 @@ export const WhapperContainer = styled.div`
 
   display: flex;
   align-items: flex-start;
+  gap: 3.5rem;
 
   img {
     display: block;
@@ -32,6 +33,7 @@ export const InforContainer = styled.div`
   }
   & > p {
     margin-top: 1rem;
+    max-width: 36.75rem;
     font-size: ${(props) => props.theme['text-regular-l']};
   }
 
@@ -43,7 +45,6 @@ export const InforContainer = styled.div`
       color: ${(props) => props.theme['base-text']};
       font-size: ${(props) => props.theme['text-regular-m']};
 
-      width: 20rem;
       height: 2rem;
       overflow: hidden;
       svg {
@@ -57,6 +58,8 @@ export const InforContainer = styled.div`
 
     li:nth-child(odd) {
       float: left;
+      margin-right: 2.5rem;
+      width: 14.5rem;
     }
 
     li:nth-child(2) {
