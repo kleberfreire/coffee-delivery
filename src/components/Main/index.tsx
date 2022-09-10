@@ -1,10 +1,10 @@
 import { Coffee, Package, ShoppingCart, Timer } from 'phosphor-react'
 import mainCoffee from '../../assets/main-coffee.svg'
-import { InforContainer, WhapperContainer } from './styles'
+import { InforContainer, WrapperContainer } from './styles'
 
 export function Main() {
   return (
-    <WhapperContainer>
+    <WrapperContainer>
       <InforContainer>
         <h1>Encontre o café perfeito para qualquer hora do dia</h1>
         <p>
@@ -28,6 +28,6 @@ export function Main() {
         </ul>
       </InforContainer>
       <img src={mainCoffee} alt="" />
-    </WhapperContainer>
+    </WrapperContainer>
   )
 }
