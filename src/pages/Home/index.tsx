@@ -1,6 +1,6 @@
 import { Main } from '../../components/Main'
 import { CoffeeItem } from './CooffeItem'
-import { CoffeesWrapperContainer } from './styles'
+import { CoffeesContainer, CoffeesWrapperContainer } from './styles'
 
 export function Home() {
   return (
@@ -8,7 +8,13 @@ export function Home() {
       <Main />
       <CoffeesWrapperContainer>
         <h2>Nossos cafés</h2>
-        <CoffeeItem />
+        <CoffeesContainer>
+          <CoffeeItem />
+          <CoffeeItem />
+          <CoffeeItem />
+          <CoffeeItem />
+          <CoffeeItem />
+        </CoffeesContainer>
       </CoffeesWrapperContainer>
     </>
   )

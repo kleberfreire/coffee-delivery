@@ -1,4 +1,4 @@
-import { ShoppingCart } from 'phosphor-react'
+import { Minus, Plus, ShoppingCart } from 'phosphor-react'
 import {
   ActionsContainer,
   AmountCoffee,
@@ -26,11 +26,17 @@ export function CoffeeItem() {
           <span>R$</span> 9,90
         </AmountCoffee>
         <QtdContainer>
-          <button>-</button>
-          <input type="number" placeholder="1" max="99" min="1" />
-          <button>+</button>
+          <button>
+            <Minus size={12} weight="bold" />
+          </button>
+          <input type="number" placeholder="1" max="99" min="1" maxLength={2} />
+          <button>
+            <Plus size={12} weight="bold" />
+          </button>
         </QtdContainer>
-        <ShoppingCart size={32} weight="fill" />
+        <button>
+          <ShoppingCart size={32} weight="fill" />
+        </button>
       </ActionsContainer>
     </WrapperContainer>
   )

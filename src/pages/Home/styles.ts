@@ -11,3 +11,13 @@ export const CoffeesWrapperContainer = styled.section`
     margin-bottom: 3.375rem;
   }
 `
+
+export const CoffeesContainer = styled.div`
+  max-width: 70rem;
+  width: 100%;
+  margin: 0 auto;
+
+  display: flex;
+  gap: 2.5rem 2rem;
+  flex-wrap: wrap;
+`

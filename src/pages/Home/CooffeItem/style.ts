@@ -8,6 +8,7 @@ export const WrapperContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+
   & > img {
     margin-top: -1.25rem;
     width: 7.5rem;
@@ -22,7 +23,7 @@ export const WrapperContainer = styled.div`
 
   p {
     text-align: center;
-    margin: 0.5rem 1.25rem;
+    margin: 0 1.25rem;
     font-size: ${(props) => props.theme['text-regular-s']};
     line-height: 130%;
   }
@@ -43,6 +44,27 @@ export const Tag = styled.span`
 
 export const ActionsContainer = styled.div`
   display: flex;
+  align-items: center;
+  margin-top: 2.0625rem;
+  margin-bottom: 1.25rem;
+
+  & > button {
+    width: 2.375rem;
+    height: 2.375rem;
+    padding: 0;
+    background: ${(props) => props.theme['purple-dark']};
+    border: 1px solid transparent;
+    border-radius: 6px;
+    overflow: hidden;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      padding: 0.5rem;
+      color: ${(props) => props.theme['base-card']};
+      background: ${(props) => props.theme['purple-dark']};
+    }
+  }
 `
 
 export const AmountCoffee = styled.span`
@@ -66,14 +88,17 @@ export const QtdContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  border-radius: 6px;
+
+  margin-right: 0.5rem;
 
   button {
     background: none;
     border: none;
-    width: 1.3rem;
+    width: 1.4rem;
     height: 100%;
     cursor: pointer;
-    /* outline: 0; */
+    color: ${(props) => props.theme.purple};
   }
 
   & > input[type='number'] {
@@ -83,11 +108,18 @@ export const QtdContainer = styled.div`
     border: none;
     background: transparent;
     text-align: center;
+    color: ${(props) => props.theme['base-title']};
+    font-size: ${(props) => props.theme['text-regular-m']};
   }
 
-  & > input[type='number']:focus {
-    background: #fff;
+  & > input[type='number']::placeholder {
+    color: ${(props) => props.theme['base-title']};
+    font-size: ${(props) => props.theme['text-regular-m']};
   }
+
+  /* & > input[type='number']:focus {
+    background: #fff;
+  } */
 
   & > input[type='number']::-webkit-outer-spin-button,
   input[type='number']::-webkit-inner-spin-button {
