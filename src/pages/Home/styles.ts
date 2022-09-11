@@ -12,11 +12,7 @@ export const CoffeesWrapperContainer = styled.section`
   }
 `
 
-export const CoffeesContainer = styled.div`
-  max-width: 70rem;
-  width: 100%;
-  margin: 0 auto;
-
+export const CoffeesContainerItens = styled.div`
   display: flex;
   gap: 2.5rem 2rem;
   flex-wrap: wrap;
