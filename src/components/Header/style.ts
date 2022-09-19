@@ -37,7 +37,7 @@ export const ActionsContainer = styled.div`
       color: ${(props) => props.theme.purple};
     }
   }
-  & > svg {
+  & > a svg {
     color: ${(props) => props.theme['yellow-dark']};
     background: ${(props) => props.theme['yellow-light']};
     padding: 0.5rem;

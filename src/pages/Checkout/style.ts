@@ -62,6 +62,7 @@ const inputBase = styled.input`
 export const FormPurchase = styled.form`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 `
 
 export const InputCep = styled(inputBase)`
@@ -71,19 +72,56 @@ export const InputCep = styled(inputBase)`
 
 export const InputRoad = styled(inputBase)`
   width: 100%;
-  margin-top: 1rem;
 `
 export const InputNumber = styled(inputBase)`
   width: 12.5rem;
-  margin-top: 1rem;
   margin-right: 0.75rem;
 `
 export const InputComplement = styled(inputBase)`
   width: 100%;
-  margin-top: 1rem;
+  position: relative;
+
+  &::before {
+    position: absolute;
+    content: 'Opcional';
+    width: 100%;
+    height: 50px;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+  }
+`
+
+export const InputComplementWrapper = styled.div`
+  width: 100%;
+  position: relative;
+
+  & > span {
+    position: absolute;
+    bottom: 0;
+    top: 36%;
+    right: -0.5rem;
+    transform: translate(-50%);
+
+    font-style: italic;
+    font-size: 0.75rem;
+    color: ${(props) => props.theme['base-label']};
+  }
 `
 export const MultiplesInputContainer = styled.div`
   display: flex;
+`
+
+export const InputDistrict = styled(inputBase)`
+  width: 12.5rem;
+  margin-right: 0.75rem;
+`
+export const InputCity = styled(inputBase)`
+  width: 17.25rem;
+  margin-right: 0.75rem;
+`
+export const InputUF = styled(inputBase)`
+  width: 3.75rem;
 `
 
 export const ConfirmPurchase = styled.div`

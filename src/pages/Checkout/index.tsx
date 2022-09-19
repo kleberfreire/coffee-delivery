@@ -6,9 +6,13 @@ import {
   FormPurchase,
   HeaderForm,
   InputCep,
+  InputCity,
   InputComplement,
+  InputComplementWrapper,
+  InputDistrict,
   InputNumber,
   InputRoad,
+  InputUF,
   MultiplesInputContainer,
   WrapperContainer,
 } from './style'
@@ -31,7 +35,15 @@ export function Checkout() {
             <InputRoad type="text" placeholder="Rua" />
             <MultiplesInputContainer>
               <InputNumber type="text" placeholder="Número" />
-              <InputComplement type="text" placeholder="Complemento" />
+              <InputComplementWrapper>
+                <InputComplement type="text" placeholder="Complemento" />
+                <span>Opcional</span>
+              </InputComplementWrapper>
+            </MultiplesInputContainer>
+            <MultiplesInputContainer>
+              <InputDistrict type="text" placeholder="Bairro" />
+              <InputCity type="text" placeholder="Cidade" />
+              <InputUF type="text" placeholder="UF" />
             </MultiplesInputContainer>
           </FormPurchase>
         </FormContainer>
