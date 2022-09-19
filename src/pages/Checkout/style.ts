@@ -6,6 +6,7 @@ export const WrapperContainer = styled.div`
   margin: 0 auto;
   display: flex;
   gap: 2rem;
+  margin-bottom: 5rem;
 `
 
 export const CompleteYourOrder = styled.section`
@@ -16,7 +17,7 @@ export const CompleteYourOrder = styled.section`
   }
 `
 
-export const HeaderForm = styled.div`
+export const HeaderAddress = styled.div`
   display: flex;
 
   & > svg {
@@ -43,13 +44,20 @@ export const HeaderForm = styled.div`
 export const FormContainer = styled.div`
   max-width: 40rem;
   width: 100%;
-  height: 23.25rem;
-  margin-top: 1rem;
-  background: ${(props) => (props) => props.theme['base-card']};
+  display: flex;
+  flex-direction: column;
+`
+
+export const AddressWrapper = styled.div`
+  max-width: 40rem;
+  width: 100%;
+  margin-top: 0.9375rem;
   border-radius: 6px;
   padding: 2.5rem;
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+  background: ${(props) => (props) => props.theme['base-card']};
 `
 
 const inputBase = styled.input`
@@ -59,15 +67,10 @@ const inputBase = styled.input`
   border: 2px solid ${(props) => props.theme['base-button']};
   border-radius: 6px;
 `
-export const FormPurchase = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`
 
 export const InputCep = styled(inputBase)`
   width: 12.5rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
 `
 
 export const InputRoad = styled(inputBase)`
@@ -122,6 +125,51 @@ export const InputCity = styled(inputBase)`
 `
 export const InputUF = styled(inputBase)`
   width: 3.75rem;
+`
+
+export const MethodPurchaseWrapper = styled.div`
+  max-width: 40rem;
+  width: 100%;
+  margin-top: 0.9375rem;
+  border-radius: 6px;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: ${(props) => (props) => props.theme['base-card']};
+`
+
+export const HeaderPurchase = styled.div`
+  display: flex;
+
+  & > svg {
+    color: ${(props) => props.theme.purple};
+
+    margin-right: 0.6875rem;
+  }
+
+  & div {
+    width: 33.125rem;
+  }
+
+  & div > h2 {
+    color: ${(props) => props.theme['base-subtitle']};
+    font-size: ${(props) => props.theme['text-regular-m']};
+  }
+
+  & div > p {
+    color: ${(props) => props.theme['base-text']};
+    font-size: ${(props) => props.theme['text-regular-s']};
+  }
+`
+
+export const ButtonsPurchaseWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
 `
 
 export const ConfirmPurchase = styled.div`
