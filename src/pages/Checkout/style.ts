@@ -195,6 +195,8 @@ export const TotalsContainer = styled.div`
 export const ItemContainer = styled.div`
   display: flex;
   width: 23rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid ${(props) => props.theme['base-button']};
   & > img {
     width: 4rem;
     margin-right: 1.25rem;
