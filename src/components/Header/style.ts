@@ -41,6 +41,7 @@ export const ActionsContainer = styled.div`
     color: ${(props) => props.theme['yellow-dark']};
     background: ${(props) => props.theme['yellow-light']};
     padding: 0.5rem;
+    display: flex;
     border-radius: 6px;
     margin-left: 0.75rem;
   }

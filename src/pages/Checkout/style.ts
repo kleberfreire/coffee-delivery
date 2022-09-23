@@ -184,7 +184,7 @@ export const TotalsContainer = styled.div`
   max-width: 28rem;
   width: 100%;
   margin-top: 0.9375rem;
-  border-radius: 6px;
+  border-radius: 6px 44px;
   padding: 2.5rem;
   display: flex;
   flex-direction: column;

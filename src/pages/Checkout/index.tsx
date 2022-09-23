@@ -36,6 +36,8 @@ import {
 
 import expressoTradicional from '../../assets/coffees/coffee-tradicional.svg'
 import { ButtonRemove } from './ButtonRemove'
+import { TotalPurchase } from './TotalsPurchase'
+import { ButtonConfirmPurchase } from './ButtonConfirmPurchase'
 
 export function Checkout() {
   return (
@@ -120,6 +122,8 @@ export function Checkout() {
               </div>
               <span>R$ 9,90</span>
             </ItemContainer>
+            <TotalPurchase />
+            <ButtonConfirmPurchase />
           </TotalsContainer>
         </ConfirmPurchase>
       </section>
