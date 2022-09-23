@@ -21,7 +21,7 @@ export const ActionsContainer = styled.div`
   display: flex;
   align-items: center;
 
-  span {
+  & > span {
     display: flex;
     align-self: center;
     justify-content: center;
@@ -37,6 +37,11 @@ export const ActionsContainer = styled.div`
       color: ${(props) => props.theme.purple};
     }
   }
+
+  & > a {
+    position: relative;
+  }
+
   & > a svg {
     color: ${(props) => props.theme['yellow-dark']};
     background: ${(props) => props.theme['yellow-light']};
@@ -44,5 +49,20 @@ export const ActionsContainer = styled.div`
     display: flex;
     border-radius: 6px;
     margin-left: 0.75rem;
+  }
+
+  & > a span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    background: ${(props) => props.theme['yellow-dark']};
+    color: ${(props) => props.theme.white};
+    font-size: ${(props) => props.theme['text-bold-s']};
+    width: 20px;
+    height: 20px;
+    right: -8.35px;
+    top: -8px;
+    border-radius: 50%;
   }
 `

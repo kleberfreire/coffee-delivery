@@ -16,6 +16,7 @@ export function Header() {
         </span>
 
         <Link to="/checkout">
+          <span>3</span>
           <ShoppingCart size={38} weight="fill" />
         </Link>
       </ActionsContainer>
