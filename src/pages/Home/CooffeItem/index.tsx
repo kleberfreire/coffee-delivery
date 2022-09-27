@@ -8,8 +8,10 @@ import {
 } from './style'
 
 import coffeeTradicional from '../../../assets/coffees/coffee-tradicional.svg'
+import { useState } from 'react'
 
 export function CoffeeItem() {
+  const [amount, setAmount] = useState(0)
   return (
     <WrapperContainer>
       <img
@@ -26,11 +28,14 @@ export function CoffeeItem() {
           <span>R$</span> 9,90
         </AmountCoffee>
         <QtdContainer>
-          <button>
+          <button
+            onClick={() => setAmount((prev) => prev - 1)}
+            disabled={amount <= 0}
+          >
             <Minus size={12} weight="bold" />
           </button>
-          <input type="number" placeholder="1" max="99" min="1" maxLength={2} />
-          <button>
+          <input type="number" max="99" min="1" maxLength={2} value={amount} />
+          <button onClick={() => setAmount((prev) => prev + 1)}>
             <Plus size={12} weight="bold" />
           </button>
         </QtdContainer>

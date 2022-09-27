@@ -10,6 +10,7 @@ interface ICoffee {
   name: string
   description: string
   value: number
+  tags: string[]
 }
 
 interface IAddress {
