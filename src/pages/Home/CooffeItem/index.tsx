@@ -7,25 +7,43 @@ import {
   WrapperContainer,
 } from './style'
 
-import coffeeTradicional from '../../../assets/coffees/coffee-tradicional.svg'
 import { useState } from 'react'
 
-export function CoffeeItem() {
+interface ICoffee {
+  id: number
+  image: string
+  name: string
+  tags: string[]
+  description: string
+  value: number
+}
+
+interface ICoffeeItemProps {
+  coffee: ICoffee
+}
+
+export function CoffeeItem({ coffee }: ICoffeeItemProps) {
   const [amount, setAmount] = useState(0)
+  const { image, tags, name, description, value } = coffee
+  const valueFormatted = new Intl.NumberFormat('pt-BR', {
+    minimumFractionDigits: 2,
+  }).format(value)
+  console.log(valueFormatted)
+
   return (
     <WrapperContainer>
-      <img
-        src={coffeeTradicional}
-        alt="imagem café tradicional em uma xícara"
-      />
+      <img src={image} alt="imagem café tradicional em uma xícara" />
       <div>
-        <Tag>Tradicional</Tag>
+        {tags.map((item) => (
+          <Tag key={item + Math.random() * (10000 - 1) + 1}>{item}</Tag>
+        ))}
       </div>
-      <h2>Expresso Tradicional</h2>
-      <p>O tradicional café feito com água quente e grãos moídos</p>
+      <h2>{name}</h2>
+      <p>{description}</p>
       <ActionsContainer>
         <AmountCoffee>
-          <span>R$</span> 9,90
+          <span>R$</span>
+          {valueFormatted}
         </AmountCoffee>
         <QtdContainer>
           <button
