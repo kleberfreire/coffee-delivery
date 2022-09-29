@@ -2,12 +2,15 @@ import { Minus, Plus, ShoppingCart } from 'phosphor-react'
 import {
   ActionsContainer,
   AmountCoffee,
+  ButtonCartAdd,
   QtdContainer,
   Tag,
+  TagContainer,
   WrapperContainer,
 } from './style'
 
-import { useState } from 'react'
+import { ChangeEvent, useContext, useState } from 'react'
+import { CartContext } from '../../../context/CartContext'
 
 interface ICoffee {
   id: number
@@ -16,6 +19,7 @@ interface ICoffee {
   tags: string[]
   description: string
   value: number
+  amount?: number
 }
 
 interface ICoffeeItemProps {
@@ -28,16 +32,22 @@ export function CoffeeItem({ coffee }: ICoffeeItemProps) {
   const valueFormatted = new Intl.NumberFormat('pt-BR', {
     minimumFractionDigits: 2,
   }).format(value)
-  console.log(valueFormatted)
+
+  const { handleAddProductCart } = useContext(CartContext)
+
+  function handleInputAmount(e: ChangeEvent<HTMLInputElement>) {
+    const valueFormatted = Number(e.target.value)
+    setAmount(valueFormatted)
+  }
 
   return (
     <WrapperContainer>
       <img src={image} alt="imagem café tradicional em uma xícara" />
-      <div>
+      <TagContainer>
         {tags.map((item) => (
           <Tag key={item + Math.random() * (10000 - 1) + 1}>{item}</Tag>
         ))}
-      </div>
+      </TagContainer>
       <h2>{name}</h2>
       <p>{description}</p>
       <ActionsContainer>
@@ -52,14 +62,27 @@ export function CoffeeItem({ coffee }: ICoffeeItemProps) {
           >
             <Minus size={12} weight="bold" />
           </button>
-          <input type="number" max="99" min="1" maxLength={2} value={amount} />
-          <button onClick={() => setAmount((prev) => prev + 1)}>
+          <input
+            type="number"
+            max="99"
+            min="1"
+            maxLength={2}
+            minLength={1}
+            value={amount}
+            onChange={handleInputAmount}
+          />
+          <button
+            onClick={() => setAmount((prev) => prev + 1)}
+            disabled={amount === 99}
+          >
             <Plus size={12} weight="bold" />
           </button>
         </QtdContainer>
-        <button>
+        <ButtonCartAdd
+          onClick={() => handleAddProductCart({ ...coffee, amount })}
+        >
           <ShoppingCart size={32} weight="fill" />
-        </button>
+        </ButtonCartAdd>
       </ActionsContainer>
     </WrapperContainer>
   )

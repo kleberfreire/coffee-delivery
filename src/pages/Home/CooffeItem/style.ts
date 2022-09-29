@@ -127,3 +127,11 @@ export const QtdContainer = styled.div`
     margin: 0;
   }
 `
+
+export const TagContainer = styled.div`
+  display: flex;
+  gap: 0.25rem;
+`
+export const ButtonCartAdd = styled.button`
+  cursor: pointer;
+`

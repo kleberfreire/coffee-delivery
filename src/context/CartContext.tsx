@@ -1,16 +1,23 @@
-import { createContext, ReactNode } from 'react'
+import { createContext, ReactNode, useState } from 'react'
 
-export const CartContext = createContext({})
+interface ICoffee {
+  id: number
+  image: string
+  name: string
+  tags: string[]
+  description: string
+  value: number
+  amount: number
+}
+
+interface ICartContext {
+  handleAddProductCart: (prod: ICoffee) => void
+}
+
+export const CartContext = createContext({} as ICartContext)
 
 interface ICartContextProviderProps {
   children: ReactNode
-}
-
-interface ICoffee {
-  name: string
-  description: string
-  value: number
-  tags: string[]
 }
 
 interface IAddress {
@@ -23,12 +30,43 @@ interface IAddress {
 }
 
 interface ICart {
-  products: ICoffee[]
+  products: ICoffee[] | []
   valueAmount: number
-  address: IAddress
-  methodPurchased: string
+  address?: IAddress
+  methodPurchased: string | null
 }
 
 export function CartContextProvider({ children }: ICartContextProviderProps) {
-  return <CartContext.Provider value={{}}>{children}</CartContext.Provider>
+  const [cart, setCart] = useState<ICart>({
+    methodPurchased: null,
+    products: [],
+    valueAmount: 0,
+  })
+
+  function handleAddProductCart(prod: ICoffee) {
+    const existingInCart = cart?.products.find((c) => c.id === prod.id)
+    if (existingInCart) {
+      existingInCart.amount = prod.amount
+      setCart((prev) => {
+        return {
+          ...prev,
+          products: [...prev.products],
+        }
+      })
+    } else {
+      setCart((prev) => {
+        return {
+          ...prev,
+          products: [...prev.products, prod],
+        }
+      })
+    }
+    console.log(cart)
+  }
+
+  return (
+    <CartContext.Provider value={{ handleAddProductCart }}>
+      {children}
+    </CartContext.Provider>
+  )
 }
