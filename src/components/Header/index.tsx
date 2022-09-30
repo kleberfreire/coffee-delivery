@@ -2,8 +2,11 @@ import logo from '../../assets/logo.svg'
 import { MapPin, ShoppingCart } from 'phosphor-react'
 import { ActionsContainer, WrapperContainer } from './style'
 import { Link } from 'react-router-dom'
+import { CartContext } from '../../context/CartContext'
+import { useContext } from 'react'
 
 export function Header() {
+  const { amountProductCart } = useContext(CartContext)
   return (
     <WrapperContainer>
       <Link to="/">
@@ -16,7 +19,7 @@ export function Header() {
         </span>
 
         <Link to="/checkout">
-          <span>3</span>
+          {amountProductCart > 0 ? <span>{amountProductCart}</span> : null}
           <ShoppingCart size={38} weight="fill" />
         </Link>
       </ActionsContainer>

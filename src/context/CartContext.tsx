@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useEffect, useState } from 'react'
 
 interface ICoffee {
   id: number
@@ -12,6 +12,7 @@ interface ICoffee {
 
 interface ICartContext {
   handleAddProductCart: (prod: ICoffee) => void
+  amountProductCart: number
 }
 
 export const CartContext = createContext({} as ICartContext)
@@ -43,6 +44,11 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
     valueAmount: 0,
   })
 
+  useEffect(() => {}, [cart.products])
+
+  const amountProductCart = cart.products.length
+  console.log(amountProductCart)
+
   function handleAddProductCart(prod: ICoffee) {
     const existingInCart = cart?.products.find((c) => c.id === prod.id)
     if (existingInCart) {
@@ -65,7 +71,7 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
   }
 
   return (
-    <CartContext.Provider value={{ handleAddProductCart }}>
+    <CartContext.Provider value={{ handleAddProductCart, amountProductCart }}>
       {children}
     </CartContext.Provider>
   )

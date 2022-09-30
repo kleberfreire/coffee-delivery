@@ -36,7 +36,10 @@ export function CoffeeItem({ coffee }: ICoffeeItemProps) {
   const { handleAddProductCart } = useContext(CartContext)
 
   function handleInputAmount(e: ChangeEvent<HTMLInputElement>) {
-    const valueFormatted = Number(e.target.value)
+    const valueFormatted =
+      parseInt(e.target.value) > 99
+        ? parseInt(e.target.value.slice(0, 2))
+        : parseInt(e.target.value)
     setAmount(valueFormatted)
   }
 
@@ -69,6 +72,7 @@ export function CoffeeItem({ coffee }: ICoffeeItemProps) {
             maxLength={2}
             minLength={1}
             value={amount}
+            placeholder="0"
             onChange={handleInputAmount}
           />
           <button
