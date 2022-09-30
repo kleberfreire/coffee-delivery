@@ -9,18 +9,6 @@ interface ICoffee {
   value: number
   amount: number
 }
-
-interface ICartContext {
-  handleAddProductCart: (prod: ICoffee) => void
-  amountProductCart: number
-}
-
-export const CartContext = createContext({} as ICartContext)
-
-interface ICartContextProviderProps {
-  children: ReactNode
-}
-
 interface IAddress {
   cep: string
   road: string
@@ -29,12 +17,23 @@ interface IAddress {
   district: string
   city: string
 }
-
 interface ICart {
   products: ICoffee[] | []
   valueAmount: number
   address?: IAddress
   methodPurchased: string | null
+}
+
+interface ICartContext {
+  handleAddProductCart: (prod: ICoffee) => void
+  amountProductCart: number
+  cart: ICart
+}
+
+export const CartContext = createContext({} as ICartContext)
+
+interface ICartContextProviderProps {
+  children: ReactNode
 }
 
 export function CartContextProvider({ children }: ICartContextProviderProps) {
@@ -71,7 +70,9 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
   }
 
   return (
-    <CartContext.Provider value={{ handleAddProductCart, amountProductCart }}>
+    <CartContext.Provider
+      value={{ cart, handleAddProductCart, amountProductCart }}
+    >
       {children}
     </CartContext.Provider>
   )

@@ -3,15 +3,11 @@ import {
   CreditCard,
   CurrencyDollar,
   MapPinLine,
-  Minus,
   Money,
-  Plus,
-  Trash,
 } from 'phosphor-react'
 import { ButtonPurchase } from './ButtonPurchase'
 import {
   AddressWrapper,
-  ButtonContainer,
   ButtonsPurchaseWrapper,
   CompleteYourOrder,
   ConfirmPurchase,
@@ -26,20 +22,20 @@ import {
   InputNumber,
   InputRoad,
   InputUF,
-  ItemContainer,
   MethodPurchaseWrapper,
   MultiplesInputContainer,
-  QtdContainer,
   TotalsContainer,
   WrapperContainer,
 } from './style'
 
-import expressoTradicional from '../../assets/coffees/coffee-tradicional.svg'
-import { ButtonRemove } from './ButtonRemove'
 import { TotalPurchase } from './TotalsPurchase'
 import { ButtonConfirmPurchase } from './ButtonConfirmPurchase'
+import { CoffeeItemCart } from './CoffeeItemCart'
+import { useContext } from 'react'
+import { CartContext } from '../../context/CartContext'
 
 export function Checkout() {
+  const { cart } = useContext(CartContext)
   return (
     <WrapperContainer>
       <CompleteYourOrder>
@@ -97,31 +93,14 @@ export function Checkout() {
         <ConfirmPurchase>
           <h1>Café selecionados</h1>
           <TotalsContainer>
-            <ItemContainer>
-              <img src={expressoTradicional} alt="" />
-              <div>
-                <h2>Expresso Tradicional</h2>
-                <ButtonContainer>
-                  <QtdContainer>
-                    <button>
-                      <Minus size={12} weight="bold" />
-                    </button>
-                    <input
-                      type="number"
-                      placeholder="1"
-                      max="99"
-                      min="1"
-                      maxLength={2}
-                    />
-                    <button>
-                      <Plus size={12} weight="bold" />
-                    </button>
-                  </QtdContainer>
-                  <ButtonRemove icon={<Trash size={12} />} method="remove" />
-                </ButtonContainer>
-              </div>
-              <span>R$ 9,90</span>
-            </ItemContainer>
+            {cart.products.map((product) => {
+              return (
+                <CoffeeItemCart
+                  key={Math.random() * (10000 - 1) + 1 + product.id}
+                  coffee={product}
+                />
+              )
+            })}
             <TotalPurchase />
             <ButtonConfirmPurchase />
           </TotalsContainer>
