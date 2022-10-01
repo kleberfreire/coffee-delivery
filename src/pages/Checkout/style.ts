@@ -181,7 +181,7 @@ export const ConfirmPurchase = styled.div`
 `
 
 export const TotalsContainer = styled.div`
-  max-width: 28rem;
+  min-width: 28rem;
   width: 100%;
   margin-top: 0.9375rem;
   border-radius: 6px 44px;
