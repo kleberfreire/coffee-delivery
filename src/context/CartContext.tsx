@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from 'react'
+import { createContext, ReactNode, useReducer } from 'react'
 
 interface ICoffee {
   id: number
@@ -26,6 +26,7 @@ interface ICart {
 
 interface ICartContext {
   handleAddProductCart: (prod: ICoffee) => void
+  handleUpdateProductCart: (prod: ICoffee, amount: number) => void
   amountProductCart: number
   cart: ICart
 }
@@ -37,41 +38,90 @@ interface ICartContextProviderProps {
 }
 
 export function CartContextProvider({ children }: ICartContextProviderProps) {
-  const [cart, setCart] = useState<ICart>({
-    methodPurchased: null,
-    products: [],
-    valueAmount: 0,
-  })
+  // const [cart, setCart] = useState<ICart>({
+  // methodPurchased: null,
+  // products: [],
+  // valueAmount: 0,
+  // })
 
-  useEffect(() => {}, [cart.products])
+  const [cart, dispatch] = useReducer(
+    (state: ICart, action: any) => {
+      if (action.type === 'ADD_NEW_PRODUCT_CART') {
+        const cartProducts = [...state.products]
+        const existingInCart = cartProducts.find(
+          (p) => p.id === action.payload.product.id,
+        )
+        console.log(existingInCart)
+        if (existingInCart) {
+          console.log(existingInCart.amount, action.payload.product.amount)
+          existingInCart.amount =
+            existingInCart.amount + action.payload.product.amount
+          console.log(existingInCart)
+          return {
+            ...state,
+            products: [...cartProducts],
+          }
+        } else {
+          return {
+            ...state,
+            products: [...state.products, action.payload.product],
+          }
+        }
+      }
+
+      if (action.type === 'ADD_UPDATE_PRODUCT_CART') {
+        const cartProducts = [...state.products]
+        const productUpdate = cartProducts.find(
+          (p) => p.id === action.payload.product.id,
+        )
+        productUpdate.amount = action.payload.amount
+        return {
+          ...state,
+          products: [...cartProducts],
+        }
+      }
+
+      // const cartJSON = JSON.stringify(state)
+      // localStorage.setItem('@coffeeDelivery:cart-state-1.0.0', cartJSON)
+      console.log('state - ', state)
+      return state
+    },
+    {
+      methodPurchased: null,
+      products: [],
+      valueAmount: 0,
+    },
+  )
+
+  // useEffect(() => {
+  //   const cartJSON = JSON.stringify(cart)
+  //   localStorage.setItem('@coffeeDelivery:cart-state-1.0.0', cartJSON)
+  // }, [cart])
 
   const amountProductCart = cart.products.length
-  console.log(amountProductCart)
 
-  function handleAddProductCart(prod: ICoffee) {
-    const existingInCart = cart?.products.find((c) => c.id === prod.id)
-    if (existingInCart) {
-      existingInCart.amount = prod.amount
-      setCart((prev) => {
-        return {
-          ...prev,
-          products: [...prev.products],
-        }
-      })
-    } else {
-      setCart((prev) => {
-        return {
-          ...prev,
-          products: [...prev.products, prod],
-        }
-      })
-    }
-    console.log(cart)
+  function handleAddProductCart(product: ICoffee) {
+    dispatch({
+      type: 'ADD_NEW_PRODUCT_CART',
+      payload: { product },
+    })
+  }
+
+  function handleUpdateProductCart(product: ICoffee, amount: number) {
+    dispatch({
+      type: 'ADD_UPDATE_PRODUCT_CART',
+      payload: { product },
+    })
   }
 
   return (
     <CartContext.Provider
-      value={{ cart, handleAddProductCart, amountProductCart }}
+      value={{
+        cart,
+        handleAddProductCart,
+        amountProductCart,
+        handleUpdateProductCart,
+      }}
     >
       {children}
     </CartContext.Provider>
