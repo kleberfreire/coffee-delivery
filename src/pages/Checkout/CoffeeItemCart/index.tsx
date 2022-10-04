@@ -19,13 +19,9 @@ interface ICoffeeItemCartProps {
 }
 
 export function CoffeeItemCart({ coffee }: ICoffeeItemCartProps) {
-  const { name, value, image, amount: amountUpdated } = coffee
-  const [amount, setAmount] = useState(0)
-  const { handleUpdateProductCart } = useContext(CartContext)
+  const { name, value, image, amount } = coffee
 
-  useEffect(() => {
-    setAmount(amountUpdated)
-  }, [amountUpdated])
+  const { handleUpdateProductCart } = useContext(CartContext)
 
   const valueFormatted = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
@@ -38,7 +34,7 @@ export function CoffeeItemCart({ coffee }: ICoffeeItemCartProps) {
       parseInt(e.target.value) > 99
         ? parseInt(e.target.value.slice(0, 2))
         : parseInt(e.target.value)
-    setAmount(valueFormatted)
+    handleUpdateProductCart(coffee, valueFormatted)
   }
 
   return (
