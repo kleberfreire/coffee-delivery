@@ -38,12 +38,6 @@ interface ICartContextProviderProps {
 }
 
 export function CartContextProvider({ children }: ICartContextProviderProps) {
-  // const [cart, setCart] = useState<ICart>({
-  // methodPurchased: null,
-  // products: [],
-  // valueAmount: 0,
-  // })
-
   const [cart, dispatch] = useReducer(
     (state: ICart, action: any) => {
       if (action.type === 'ADD_NEW_PRODUCT_CART') {
@@ -74,7 +68,9 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
         const productUpdate = cartProducts.find(
           (p) => p.id === action.payload.product.id,
         )
-        productUpdate.amount = action.payload.amount
+        console.log('novo', action.payload.product.amount)
+        productUpdate.amount = action.payload.newAmount
+        console.log('atual', productUpdate?.amount)
         return {
           ...state,
           products: [...cartProducts],
@@ -110,7 +106,7 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
   function handleUpdateProductCart(product: ICoffee, amount: number) {
     dispatch({
       type: 'ADD_UPDATE_PRODUCT_CART',
-      payload: { product },
+      payload: { product, newAmount: amount },
     })
   }
 

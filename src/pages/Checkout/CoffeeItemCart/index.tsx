@@ -1,5 +1,5 @@
 import { Minus, Plus, Trash } from 'phosphor-react'
-import { ChangeEvent, useContext, useState } from 'react'
+import { ChangeEvent, useContext, useEffect, useState } from 'react'
 import { CartContext } from '../../../context/CartContext'
 import { ButtonRemove } from '../ButtonRemove'
 import { ButtonContainer, ItemContainer, QtdContainer } from './style'
@@ -19,9 +19,13 @@ interface ICoffeeItemCartProps {
 }
 
 export function CoffeeItemCart({ coffee }: ICoffeeItemCartProps) {
-  const { name, value, image, amount: amountInicial } = coffee
-  const [amount, setAmount] = useState(amountInicial)
+  const { name, value, image, amount: amountUpdated } = coffee
+  const [amount, setAmount] = useState(0)
   const { handleUpdateProductCart } = useContext(CartContext)
+
+  useEffect(() => {
+    setAmount(amountUpdated)
+  }, [amountUpdated])
 
   const valueFormatted = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
@@ -46,8 +50,7 @@ export function CoffeeItemCart({ coffee }: ICoffeeItemCartProps) {
           <QtdContainer>
             <button
               onClick={() => {
-                setAmount((prev) => prev - 1)
-                handleUpdateProductCart(coffee, amount)
+                handleUpdateProductCart(coffee, amount - 1)
               }}
               disabled={amount <= 0}
             >
@@ -64,9 +67,8 @@ export function CoffeeItemCart({ coffee }: ICoffeeItemCartProps) {
               onChange={handleInputAmount}
             />
             <button
-              onClick={() => {
-                setAmount((prev) => prev + 1)
-                handleUpdateProductCart(coffee, amount)
+              onClick={async () => {
+                handleUpdateProductCart(coffee, amount + 1)
               }}
               disabled={amount === 99}
             >
