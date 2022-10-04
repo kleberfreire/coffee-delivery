@@ -1,5 +1,5 @@
 import { Minus, Plus, Trash } from 'phosphor-react'
-import { ChangeEvent, useContext, useEffect, useState } from 'react'
+import { ChangeEvent, useContext } from 'react'
 import { CartContext } from '../../../context/CartContext'
 import { ButtonRemove } from '../ButtonRemove'
 import { ButtonContainer, ItemContainer, QtdContainer } from './style'
