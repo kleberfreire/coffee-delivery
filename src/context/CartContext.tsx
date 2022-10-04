@@ -67,7 +67,7 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
         const cartProducts = [...state.products]
         const productUpdate = cartProducts.find(
           (p) => p.id === action.payload.product.id,
-        )
+        ) as ICoffee
         console.log('novo', action.payload.product.amount)
         productUpdate.amount = action.payload.newAmount
         console.log('atual', productUpdate?.amount)
@@ -79,7 +79,6 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
 
       // const cartJSON = JSON.stringify(state)
       // localStorage.setItem('@coffeeDelivery:cart-state-1.0.0', cartJSON)
-      console.log('state - ', state)
       return state
     },
     {
