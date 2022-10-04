@@ -19,7 +19,7 @@ interface IAddress {
 }
 interface ICart {
   products: ICoffee[] | []
-  valueAmount: number
+  totalValue: number
   address?: IAddress
   methodPurchased: string | null
 }
@@ -85,7 +85,7 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
     {
       methodPurchased: null,
       products: [],
-      valueAmount: 0,
+      totalValue: 0,
     },
   )
 
