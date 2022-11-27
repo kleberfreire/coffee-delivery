@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useReducer } from 'react'
+import { createContext, ReactNode, useEffect, useReducer } from 'react'
 
 interface ICoffee {
   id: number
@@ -20,6 +20,7 @@ interface IAddress {
 interface ICart {
   products: ICoffee[] | []
   totalValue: number
+  shipping?: number
   address?: IAddress
   methodPurchased: string | null
 }
@@ -71,9 +72,15 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
         console.log('novo', action.payload.product.amount)
         productUpdate.amount = action.payload.newAmount
         console.log('atual', productUpdate?.amount)
+        const totalValueInCart: number = cartProducts.reduce((acc, curr) => {
+          const totalProduct = curr.value * curr.amount
+          return acc + totalProduct
+        }, 0)
+
         return {
           ...state,
           products: [...cartProducts],
+          totalValue: totalValueInCart,
         }
       }
 
@@ -94,7 +101,6 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
   // }, [cart])
 
   const amountProductCart = cart.products.length
-
   function handleAddProductCart(product: ICoffee) {
     dispatch({
       type: 'ADD_NEW_PRODUCT_CART',
@@ -108,7 +114,7 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
       payload: { product, newAmount: amount },
     })
   }
-
+  console.log(cart)
   return (
     <CartContext.Provider
       value={{

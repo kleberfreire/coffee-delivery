@@ -84,8 +84,10 @@ export function CoffeeItem({ coffee }: ICoffeeItemProps) {
         </QtdContainer>
         <ButtonCartAdd
           onClick={() => {
-            handleAddProductCart({ ...coffee, amount })
-            setAmount(0)
+            if (amount > 0) {
+              handleAddProductCart({ ...coffee, amount })
+              setAmount(0)
+            }
           }}
         >
           <ShoppingCart size={32} weight="fill" />

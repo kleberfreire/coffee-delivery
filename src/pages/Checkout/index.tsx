@@ -101,7 +101,7 @@ export function Checkout() {
                 />
               )
             })}
-            <TotalPurchase />
+            <TotalPurchase totalItems={cart.totalValue} />
             <ButtonConfirmPurchase />
           </TotalsContainer>
         </ConfirmPurchase>
