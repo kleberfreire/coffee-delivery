@@ -39,6 +39,17 @@ interface ICartContextProviderProps {
 }
 
 export function CartContextProvider({ children }: ICartContextProviderProps) {
+  //   const totalValueInCart: number = cart.products.reduce((acc, curr) => {
+  //   const totalProduct = curr.value * curr.amount
+  //   return acc + totalProduct
+  // }, 0)
+  function getTotalValeu(products: ICoffee[]) {
+    return products.reduce((acc, curr) => {
+      const totalProduct = curr.value * curr.amount
+      return acc + totalProduct
+    }, 0)
+  }
+
   const [cart, dispatch] = useReducer(
     (state: ICart, action: any) => {
       if (action.type === 'ADD_NEW_PRODUCT_CART') {
@@ -46,19 +57,25 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
         const existingInCart = cartProducts.find(
           (p) => p.id === action.payload.product.id,
         )
-        console.log(existingInCart)
+
         if (existingInCart) {
           console.log(existingInCart.amount, action.payload.product.amount)
           existingInCart.amount =
             existingInCart.amount + action.payload.product.amount
           console.log(existingInCart)
+
           return {
             ...state,
+            totalValue: getTotalValeu(cartProducts),
             products: [...cartProducts],
           }
         } else {
           return {
             ...state,
+            totalValue: getTotalValeu([
+              ...state.products,
+              action.payload.product,
+            ]),
             products: [...state.products, action.payload.product],
           }
         }
@@ -72,15 +89,15 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
         console.log('novo', action.payload.product.amount)
         productUpdate.amount = action.payload.newAmount
         console.log('atual', productUpdate?.amount)
-        const totalValueInCart: number = cartProducts.reduce((acc, curr) => {
-          const totalProduct = curr.value * curr.amount
-          return acc + totalProduct
-        }, 0)
+        // const totalValueInCart: number = cartProducts.reduce((acc, curr) => {
+        //   const totalProduct = curr.value * curr.amount
+        //   return acc + totalProduct
+        // }, 0)
 
         return {
           ...state,
           products: [...cartProducts],
-          totalValue: totalValueInCart,
+          totalValue: getTotalValeu(cartProducts),
         }
       }
 
@@ -101,6 +118,7 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
   // }, [cart])
 
   const amountProductCart = cart.products.length
+
   function handleAddProductCart(product: ICoffee) {
     dispatch({
       type: 'ADD_NEW_PRODUCT_CART',

@@ -23,11 +23,12 @@ export function CoffeeItemCart({ coffee }: ICoffeeItemCartProps) {
 
   const { handleUpdateProductCart } = useContext(CartContext)
 
-  const valueFormatted = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-    minimumFractionDigits: 2,
-  }).format(value)
+  const valueFormatted = (value: number) =>
+    new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 2,
+    }).format(value)
 
   function handleInputAmount(e: ChangeEvent<HTMLInputElement>) {
     const valueFormatted =
@@ -74,7 +75,7 @@ export function CoffeeItemCart({ coffee }: ICoffeeItemCartProps) {
           <ButtonRemove icon={<Trash size={12} />} method="remove" />
         </ButtonContainer>
       </div>
-      <span>{valueFormatted}</span>
+      <span>{valueFormatted(value * amount)}</span>
     </ItemContainer>
   )
 }
