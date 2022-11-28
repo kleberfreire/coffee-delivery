@@ -4,11 +4,22 @@ import { Button } from './style'
 interface IButtonPurchaseProps {
   method: string
   icon: ReactNode
+  handleMethodPurchase: (method: string) => void
+  active: boolean
 }
 
-export function ButtonPurchase({ icon, method }: IButtonPurchaseProps) {
+export function ButtonPurchase({
+  icon,
+  method,
+  active,
+  handleMethodPurchase,
+}: IButtonPurchaseProps) {
   return (
-    <Button>
+    <Button
+      activeMethod={active}
+      onClick={() => handleMethodPurchase(method)}
+      type="button"
+    >
       {icon}
       {method}
     </Button>
