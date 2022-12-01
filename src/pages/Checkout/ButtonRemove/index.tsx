@@ -4,11 +4,18 @@ import { Button } from './style'
 interface IButtonPurchaseProps {
   method: string
   icon: ReactNode
+  handleRemove: (id: number) => void
+  id: number
 }
 
-export function ButtonRemove({ icon, method }: IButtonPurchaseProps) {
+export function ButtonRemove({
+  icon,
+  method,
+  handleRemove,
+  id,
+}: IButtonPurchaseProps) {
   return (
-    <Button>
+    <Button onClick={() => handleRemove(id)}>
       {icon}
       {method}
     </Button>

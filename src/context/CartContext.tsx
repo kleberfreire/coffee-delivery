@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useReducer } from 'react'
+import { createContext, ReactNode, useReducer } from 'react'
 
 interface ICoffee {
   id: number
@@ -28,6 +28,7 @@ interface ICart {
 interface ICartContext {
   handleAddProductCart: (prod: ICoffee) => void
   handleUpdateProductCart: (prod: ICoffee, amount: number) => void
+  handleRemoveProductCart: (id: number) => void
   amountProductCart: number
   cart: ICart
 }
@@ -39,15 +40,16 @@ interface ICartContextProviderProps {
 }
 
 export function CartContextProvider({ children }: ICartContextProviderProps) {
-  //   const totalValueInCart: number = cart.products.reduce((acc, curr) => {
-  //   const totalProduct = curr.value * curr.amount
-  //   return acc + totalProduct
-  // }, 0)
-  function getTotalValeu(products: ICoffee[]) {
+  function getTotalValue(products: ICoffee[]) {
     return products.reduce((acc, curr) => {
       const totalProduct = curr.value * curr.amount
       return acc + totalProduct
     }, 0)
+  }
+
+  function addLocalStorage(data: ICart) {
+    const cartJSON = JSON.stringify(data)
+    localStorage.setItem('@coffeeDelivery:cart-state-1.0.0', cartJSON)
   }
 
   const [cart, dispatch] = useReducer(
@@ -63,16 +65,28 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
           existingInCart.amount =
             existingInCart.amount + action.payload.product.amount
           console.log(existingInCart)
-
+          addLocalStorage({
+            ...state,
+            totalValue: getTotalValue(cartProducts),
+            products: [...cartProducts],
+          })
           return {
             ...state,
-            totalValue: getTotalValeu(cartProducts),
+            totalValue: getTotalValue(cartProducts),
             products: [...cartProducts],
           }
         } else {
+          addLocalStorage({
+            ...state,
+            totalValue: getTotalValue([
+              ...state.products,
+              action.payload.product,
+            ]),
+            products: [...state.products, action.payload.product],
+          })
           return {
             ...state,
-            totalValue: getTotalValeu([
+            totalValue: getTotalValue([
               ...state.products,
               action.payload.product,
             ]),
@@ -97,7 +111,18 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
         return {
           ...state,
           products: [...cartProducts],
-          totalValue: getTotalValeu(cartProducts),
+          totalValue: getTotalValue(cartProducts),
+        }
+      }
+
+      if (action.type === 'REMOVE_PRODUCT_CART') {
+        const cartProducts = state.products.filter(
+          (product) => product.id !== action.payload.id,
+        )
+        return {
+          ...state,
+          products: [...cartProducts],
+          totalValue: getTotalValue(cartProducts),
         }
       }
 
@@ -132,6 +157,12 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
       payload: { product, newAmount: amount },
     })
   }
+  function handleRemoveProductCart(id: number) {
+    dispatch({
+      type: 'REMOVE_PRODUCT_CART',
+      payload: { id },
+    })
+  }
   console.log(cart)
   return (
     <CartContext.Provider
@@ -140,6 +171,7 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
         handleAddProductCart,
         amountProductCart,
         handleUpdateProductCart,
+        handleRemoveProductCart,
       }}
     >
       {children}

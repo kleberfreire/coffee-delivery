@@ -19,9 +19,10 @@ interface ICoffeeItemCartProps {
 }
 
 export function CoffeeItemCart({ coffee }: ICoffeeItemCartProps) {
-  const { name, value, image, amount } = coffee
+  const { name, value, image, amount, id } = coffee
 
-  const { handleUpdateProductCart } = useContext(CartContext)
+  const { handleUpdateProductCart, handleRemoveProductCart } =
+    useContext(CartContext)
 
   const valueFormatted = (value: number) =>
     new Intl.NumberFormat('pt-BR', {
@@ -72,7 +73,12 @@ export function CoffeeItemCart({ coffee }: ICoffeeItemCartProps) {
               <Plus size={12} weight="bold" />
             </button>
           </QtdContainer>
-          <ButtonRemove icon={<Trash size={12} />} method="remove" />
+          <ButtonRemove
+            icon={<Trash size={12} />}
+            method="remove"
+            handleRemove={handleRemoveProductCart}
+            id={id}
+          />
         </ButtonContainer>
       </div>
       <span>{valueFormatted(value * amount)}</span>

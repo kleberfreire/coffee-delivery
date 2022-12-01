@@ -32,7 +32,7 @@ import {
 import { TotalPurchase } from './TotalsPurchase'
 import { ButtonConfirmPurchase } from './ButtonConfirmPurchase'
 import { CoffeeItemCart } from './CoffeeItemCart'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { CartContext } from '../../context/CartContext'
 
 type Inputs = {
@@ -60,6 +60,10 @@ export function Checkout() {
   function handleMethodPurchase(method: string) {
     setMethodPurchased(method)
   }
+  useEffect(() => {
+    const data = localStorage.getItem('@coffeeDelivery:cart-state-1.0.0')
+    console.log(data)
+  }, [])
 
   return (
     <WrapperContainer onSubmit={handleSubmit(onSubmit)} id="formPurchase">
