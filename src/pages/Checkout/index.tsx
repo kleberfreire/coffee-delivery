@@ -48,22 +48,14 @@ type Inputs = {
 export function Checkout() {
   const { cart } = useContext(CartContext)
   const [methodPurchased, setMethodPurchased] = useState('')
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Inputs>()
+
+  const { register, handleSubmit } = useForm<Inputs>()
 
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
 
   function handleMethodPurchase(method: string) {
     setMethodPurchased(method)
   }
-  useEffect(() => {
-    const data = localStorage.getItem('@coffeeDelivery:cart-state-1.0.0')
-    console.log(data)
-  }, [])
 
   return (
     <WrapperContainer onSubmit={handleSubmit(onSubmit)} id="formPurchase">

@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useReducer } from 'react'
+import { createContext, ReactNode, useEffect, useReducer } from 'react'
 
 interface ICoffee {
   id: number
@@ -64,26 +64,12 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
           console.log(existingInCart.amount, action.payload.product.amount)
           existingInCart.amount =
             existingInCart.amount + action.payload.product.amount
-          console.log(existingInCart)
-          addLocalStorage({
-            ...state,
-            totalValue: getTotalValue(cartProducts),
-            products: [...cartProducts],
-          })
           return {
             ...state,
             totalValue: getTotalValue(cartProducts),
             products: [...cartProducts],
           }
         } else {
-          addLocalStorage({
-            ...state,
-            totalValue: getTotalValue([
-              ...state.products,
-              action.payload.product,
-            ]),
-            products: [...state.products, action.payload.product],
-          })
           return {
             ...state,
             totalValue: getTotalValue([
@@ -126,8 +112,6 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
         }
       }
 
-      // const cartJSON = JSON.stringify(state)
-      // localStorage.setItem('@coffeeDelivery:cart-state-1.0.0', cartJSON)
       return state
     },
     {
@@ -135,12 +119,20 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
       products: [],
       totalValue: 0,
     },
+    () => {
+      const storedStateAsJSON = localStorage.getItem(
+        '@coffeeDelivery:cart-state-1.0.0',
+      )
+      if (storedStateAsJSON) {
+        return JSON.parse(storedStateAsJSON)
+      }
+    },
   )
 
-  // useEffect(() => {
-  //   const cartJSON = JSON.stringify(cart)
-  //   localStorage.setItem('@coffeeDelivery:cart-state-1.0.0', cartJSON)
-  // }, [cart])
+  useEffect(() => {
+    const cartJSON = JSON.stringify(cart)
+    localStorage.setItem('@coffeeDelivery:cart-state-1.0.0', cartJSON)
+  }, [cart])
 
   const amountProductCart = cart.products.length
 
@@ -164,6 +156,7 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
     })
   }
   console.log(cart)
+
   return (
     <CartContext.Provider
       value={{
