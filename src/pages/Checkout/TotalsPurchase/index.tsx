@@ -2,15 +2,16 @@ import { Wrapper } from './styled'
 
 type TotalPurchaseProps = {
   totalItems: number
+  shipping: number
 }
 
-export function TotalPurchase({ totalItems }: TotalPurchaseProps) {
+export function TotalPurchase({ totalItems, shipping }: TotalPurchaseProps) {
+  console.log('frete', shipping)
   const formatterValue = (value: number) =>
     new Intl.NumberFormat('pt-BR', {
       minimumFractionDigits: 2,
     }).format(value)
 
-  const shipping = 3.5
   const total = totalItems + shipping
 
   return (

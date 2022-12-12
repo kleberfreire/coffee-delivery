@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+type ToastResolverProblem = {
+  children?: any
+}
+
 export const WrapperContainer = styled.form`
   max-width: 70rem;
   width: 100%;
@@ -48,7 +52,7 @@ export const FormContainer = styled.div`
   flex-direction: column;
 `
 
-export const AddressWrapper = styled.div`
+export const AddressWrapper = styled.div<ToastResolverProblem>`
   max-width: 40rem;
   width: 100%;
   margin-top: 0.9375rem;
@@ -61,16 +65,28 @@ export const AddressWrapper = styled.div`
 `
 
 const inputBase = styled.input`
-  color: ${(props) => props.theme['base-label']};
+  color: ${(props) => props.theme['base-text']};
   padding: 0.75rem;
   background: ${(props) => props.theme['base-input']};
   border: 2px solid ${(props) => props.theme['base-button']};
   border-radius: 6px;
+  &:focus {
+    border: 2px solid ${(props) => props.theme['yellow-dark']};
+  }
 `
 
 export const InputCep = styled(inputBase)`
   width: 12.5rem;
   margin-top: 1rem;
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
 `
 
 export const InputRoad = styled(inputBase)`
@@ -79,23 +95,28 @@ export const InputRoad = styled(inputBase)`
 export const InputNumber = styled(inputBase)`
   width: 12.5rem;
   margin-right: 0.75rem;
+
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
 `
 export const InputComplement = styled(inputBase)`
   width: 100%;
   position: relative;
-
-  &::before {
-    position: absolute;
-    content: 'Opcional';
-    width: 100%;
-    height: 50px;
-    top: 0;
-    right: 0;
-    z-index: 1000;
+  &:not(:placeholder-shown) {
+    & span {
+      display: none;
+    }
   }
 `
 
-export const InputComplementWrapper = styled.div`
+export const InputComplementWrapper = styled.div<ToastResolverProblem>`
   width: 100%;
   position: relative;
 
@@ -110,8 +131,16 @@ export const InputComplementWrapper = styled.div`
     font-size: 0.75rem;
     color: ${(props) => props.theme['base-label']};
   }
+
+  & > input {
+    &:not(:placeholder-shown) {
+      span {
+        display: none;
+      }
+    }
+  }
 `
-export const MultiplesInputContainer = styled.div`
+export const MultiplesInputContainer = styled.div<ToastResolverProblem>`
   display: flex;
 `
 

@@ -11,16 +11,18 @@ interface ICoffee {
 }
 interface IAddress {
   cep: string
-  road: string
-  number: number
+  street: string
+  number: string
   complement: string
   district: string
   city: string
+  UF: string
 }
 interface ICart {
   products: ICoffee[] | []
+  totalProductValue: number
   totalValue: number
-  shipping?: number
+  shipping: number
   address?: IAddress
   methodPurchased: string | null
 }
@@ -29,6 +31,8 @@ interface ICartContext {
   handleAddProductCart: (prod: ICoffee) => void
   handleUpdateProductCart: (prod: ICoffee, amount: number) => void
   handleRemoveProductCart: (id: number) => void
+  handleShipping: (address: IAddress, shippingValue: number) => void
+  handleMethodPurchased: (methodPurchased: string) => void
   amountProductCart: number
   cart: ICart
 }
@@ -47,11 +51,6 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
     }, 0)
   }
 
-  function addLocalStorage(data: ICart) {
-    const cartJSON = JSON.stringify(data)
-    localStorage.setItem('@coffeeDelivery:cart-state-1.0.0', cartJSON)
-  }
-
   const [cart, dispatch] = useReducer(
     (state: ICart, action: any) => {
       if (action.type === 'ADD_NEW_PRODUCT_CART') {
@@ -61,18 +60,17 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
         )
 
         if (existingInCart) {
-          console.log(existingInCart.amount, action.payload.product.amount)
           existingInCart.amount =
             existingInCart.amount + action.payload.product.amount
           return {
             ...state,
-            totalValue: getTotalValue(cartProducts),
+            totalProductValue: getTotalValue(cartProducts),
             products: [...cartProducts],
           }
         } else {
           return {
             ...state,
-            totalValue: getTotalValue([
+            totalProductValue: getTotalValue([
               ...state.products,
               action.payload.product,
             ]),
@@ -86,18 +84,12 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
         const productUpdate = cartProducts.find(
           (p) => p.id === action.payload.product.id,
         ) as ICoffee
-        console.log('novo', action.payload.product.amount)
         productUpdate.amount = action.payload.newAmount
-        console.log('atual', productUpdate?.amount)
-        // const totalValueInCart: number = cartProducts.reduce((acc, curr) => {
-        //   const totalProduct = curr.value * curr.amount
-        //   return acc + totalProduct
-        // }, 0)
 
         return {
           ...state,
           products: [...cartProducts],
-          totalValue: getTotalValue(cartProducts),
+          totalProductValue: getTotalValue(cartProducts),
         }
       }
 
@@ -108,7 +100,23 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
         return {
           ...state,
           products: [...cartProducts],
-          totalValue: getTotalValue(cartProducts),
+          totalProductValue: getTotalValue(cartProducts),
+        }
+      }
+
+      if (action.type === 'SET_ADDRESS_SHIPPING') {
+        return {
+          ...state,
+          shipping: action.payload.shippingValue,
+          address: action.payload.address,
+          totalValue:
+            getTotalValue(state.products) + action.payload.shippingValue,
+        }
+      }
+      if (action.type === 'SET_METHOD_PURCHASED') {
+        return {
+          ...state,
+          methodPurchased: action.payload.methodPurchased,
         }
       }
 
@@ -117,7 +125,18 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
     {
       methodPurchased: null,
       products: [],
+      address: {
+        cep: '',
+        street: '',
+        number: '',
+        complement: '',
+        district: '',
+        city: '',
+        UF: '',
+      },
       totalValue: 0,
+      totalProductValue: 0,
+      shipping: 0,
     },
     () => {
       const storedStateAsJSON = localStorage.getItem(
@@ -125,6 +144,13 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
       )
       if (storedStateAsJSON) {
         return JSON.parse(storedStateAsJSON)
+      }
+      return {
+        methodPurchased: null,
+        products: [],
+        totalValue: 0,
+        totalProductValue: 0,
+        shipping: 0,
       }
     },
   )
@@ -134,7 +160,7 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
     localStorage.setItem('@coffeeDelivery:cart-state-1.0.0', cartJSON)
   }, [cart])
 
-  const amountProductCart = cart.products.length
+  const amountProductCart = cart?.products?.length ?? 0
 
   function handleAddProductCart(product: ICoffee) {
     dispatch({
@@ -155,6 +181,20 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
       payload: { id },
     })
   }
+
+  function handleShipping(address: IAddress, shippingValue: number) {
+    dispatch({
+      type: 'SET_ADDRESS_SHIPPING',
+      payload: { address, shippingValue },
+    })
+  }
+  function handleMethodPurchased(methodPurchased: string) {
+    dispatch({
+      type: 'SET_METHOD_PURCHASED',
+      payload: { methodPurchased },
+    })
+  }
+
   console.log(cart)
 
   return (
@@ -165,6 +205,8 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
         amountProductCart,
         handleUpdateProductCart,
         handleRemoveProductCart,
+        handleShipping,
+        handleMethodPurchased,
       }}
     >
       {children}
