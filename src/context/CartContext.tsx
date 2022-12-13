@@ -33,6 +33,7 @@ interface ICartContext {
   handleRemoveProductCart: (id: number) => void
   handleShipping: (address: IAddress, shippingValue: number) => void
   handleMethodPurchased: (methodPurchased: string) => void
+  handleClearCartPurchased: () => void
   amountProductCart: number
   cart: ICart
 }
@@ -119,6 +120,24 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
           methodPurchased: action.payload.methodPurchased,
         }
       }
+      if (action.type === 'CLEAR_CART_PURCHASED') {
+        return {
+          methodPurchased: null,
+          products: [],
+          address: {
+            cep: '',
+            street: '',
+            number: '',
+            complement: '',
+            district: '',
+            city: '',
+            UF: '',
+          },
+          totalValue: 0,
+          totalProductValue: 0,
+          shipping: 0,
+        }
+      }
 
       return state
     },
@@ -194,6 +213,11 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
       payload: { methodPurchased },
     })
   }
+  function handleClearCartPurchased() {
+    dispatch({
+      type: 'CLEAR_CART_PURCHASED',
+    })
+  }
 
   console.log(cart)
 
@@ -207,6 +231,7 @@ export function CartContextProvider({ children }: ICartContextProviderProps) {
         handleRemoveProductCart,
         handleShipping,
         handleMethodPurchased,
+        handleClearCartPurchased,
       }}
     >
       {children}

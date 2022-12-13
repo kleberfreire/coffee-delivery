@@ -1,4 +1,5 @@
 import { CurrencyDollar, MapPin, Timer } from 'phosphor-react'
+import { useLocation } from 'react-router-dom'
 import Illustration from '../../assets/success/Illustration.svg'
 
 import {
@@ -12,6 +13,19 @@ import {
 } from './style'
 
 export function ConfirmationPurchase() {
+  const location = useLocation()
+  console.log(location.state)
+  const {
+    district,
+    number,
+    city,
+    street,
+    complement,
+    UF,
+    cep,
+    methodPurchased,
+  } = location.state
+
   return (
     <WrapperContainer>
       <Title>Uhu! Pedido confirmado</Title>
@@ -24,9 +38,14 @@ export function ConfirmationPurchase() {
                 <MapPin size={32} weight="fill" />
               </IconItem>
               <p>
-                Entrega em<strong> Rua João Daniel Martinelli, 102</strong>{' '}
+                Entrega em
+                <strong>
+                  {' '}
+                  {street}, {number}
+                </strong>{' '}
+                {complement}
                 <br />
-                Farrapos - Porto Alegre, RS
+                {district} - {city}, {UF}
               </p>
             </li>
             <li>
@@ -46,7 +65,7 @@ export function ConfirmationPurchase() {
 
               <p>
                 Pagamento na entrega <br />
-                <strong> Cartão de Crédito</strong>
+                <strong> {methodPurchased}</strong>
               </p>
             </li>
           </ContainerInfo>

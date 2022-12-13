@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, SubmitHandler } from 'react-hook-form'
@@ -74,10 +75,16 @@ const schema = yup
   .required()
 
 export function Checkout() {
-  const { cart, handleShipping, handleMethodPurchased } =
-    useContext(CartContext)
-  const [methodPurchased, setMethodPurchased] = useState<string | null>(null)
+  const {
+    cart,
+    handleShipping,
+    handleMethodPurchased,
+    handleClearCartPurchased,
+  } = useContext(CartContext)
+  // const [methodPurchased, setMethodPurchased] = useState<string | null>(null)
   const [showOptionalMessage, setShowOptionalMessage] = useState(true)
+
+  const navigate = useNavigate()
 
   const {
     register,
@@ -100,16 +107,30 @@ export function Checkout() {
   }, [isValid])
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    if (methodPurchased === null) {
+    if (cart.methodPurchased === null) {
       handleToast('Escolha um método de pagamento')
       return
     }
 
+    if (cart.products.length === 0) {
+      handleToast('Escolha um produto')
+      return
+    }
+
+    const dataConfirmationPurchased = {
+      ...data,
+      methodPurchased: cart.methodPurchased,
+    }
     console.log('submit', data)
+    handleClearCartPurchased()
+
+    navigate('/checkout/success', {
+      state: dataConfirmationPurchased,
+    })
   }
 
   function handleMethodPurchase(method: string) {
-    setMethodPurchased(method)
+    // setMethodPurchased(method)
     handleMethodPurchased(method)
   }
 
